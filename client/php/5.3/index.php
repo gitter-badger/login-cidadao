@@ -17,7 +17,7 @@ $httpClient = new \Guzzle\Http\Client();
 $api = new fkooman\OAuth\Client\Api("foo", $clientConfig, $tokenStorage, $httpClient);
 
 //$context = new \fkooman\OAuth\Client\Context("myapp", array("id", "username", "full_name", "name", "cpf", "birthdate","email","city","picture","public_profile","voter_registration","badges","country"));
-$context = new \fkooman\OAuth\Client\Context("john.doe@example.org", array("id"));
+$context = new \fkooman\OAuth\Client\Context("john.doe@example.org", array("id", "notifications"));
 
 $accessToken = $api->getAccessToken($context);
 if (false === $accessToken && $_GET['authorize'] == 1) {
