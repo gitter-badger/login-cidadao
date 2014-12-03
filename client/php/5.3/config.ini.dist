@@ -2,8 +2,8 @@
 authorize_endpoint = "https://meu.rs.gov.br/oauth/v2/auth";
 token_endpoint = "https://meu.rs.gov.br/oauth/v2/token";
 redirect_uri = "http://localhost/callback.php";
-client_id = "193_5ac8scfa6z48kwoso8wo8oo8wso00k84gckg88880g8kswo8o4";
-client_secret = "5nz9d5gia1cs8wow8sw4g8wc0skwow0swc0g0wssgwsk8wwg48";
+client_id = "";
+client_secret = "";
 
 [fkooman_api_config]
 api_context = "Meu"
