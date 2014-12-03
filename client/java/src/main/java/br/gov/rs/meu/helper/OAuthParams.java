@@ -1,7 +1,6 @@
-package demo;
+package br.gov.rs.meu.helper;
 
-
-public class OAuthParams {
+public class OAuthParams implements java.io.Serializable {
 
 	private String clientId;
 	private String clientSecret;
@@ -17,7 +16,7 @@ public class OAuthParams {
 	private String resourceUrl;
 	private String resource;
 	private String application;
-	private String requestType = Utils.REQUEST_TYPE_HEADER;
+	private String requestType;
 	private String requestMethod;
 	private String idToken;
 	private String header;
@@ -96,9 +95,7 @@ public class OAuthParams {
 	}
 
 	public void setExpiresIn(String expiresIn) {
-		if (!Utils.isEmpty(expiresIn)) {
-			this.expiresIn = Long.parseLong(expiresIn);
-		}
+		this.expiresIn = Long.parseLong(expiresIn);
 	}
 
 	public void setExpiresIn(Long expiresIn) {

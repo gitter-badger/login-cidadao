@@ -3,8 +3,8 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
 	<modelVersion>4.0.0</modelVersion>
-	<groupId>procergs</groupId>
-	<artifactId>meu.client.demo</artifactId>
+	<groupId>estacio</groupId>
+	<artifactId>blog.cidadao</artifactId>
 	<packaging>war</packaging>
 	<version>0.0.1-SNAPSHOT</version>
 	<name>A custom project using myfaces</name>
@@ -33,16 +33,13 @@
 	</build>
 	<properties>
 		<oltu.oauth2.version>1.0.0</oltu.oauth2.version>
+		<oltu.oidc.version>0.1-SNAPSHOT</oltu.oidc.version>
 	</properties>
 
 	<!-- Project dependencies -->
 	<dependencies>
- 		<dependency>
-			<groupId>javax.servlet</groupId>
-			<artifactId>javax.servlet-api</artifactId>
-			<version>3.0.1</version>
-			<scope>provided</scope>
-		</dependency>
+
+		<!-- idm deps -->
 		<dependency>
 			<artifactId>org.apache.oltu.oauth2.common</artifactId>
 			<groupId>org.apache.oltu.oauth2</groupId>
@@ -61,13 +58,17 @@
 			<version>${oltu.oauth2.version}</version>
 		</dependency>
 
-		<!-- OpenId Connect Dependency <dependency> <groupId>org.apache.oltu.openidconnect</groupId> 
-			<artifactId>org.apache.oltu.openidconnect.common</artifactId> <version>${oltu.oidc.version}</version> 
-			</dependency> <dependency> <groupId>org.apache.oltu.openidconnect</groupId> 
-			<artifactId>org.apache.oltu.openidconnect.client</artifactId> <version>${oltu.oidc.version}</version> 
-			</dependency> -->
-		<!-- OAuth Dynamic Registration Dependency -->
-
+<!-- 		<dependency>
+			<groupId>org.apache.oltu.openidconnect</groupId>
+			<artifactId>org.apache.oltu.openidconnect.common</artifactId>
+			<version>${oltu.oidc.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>org.apache.oltu.openidconnect</groupId>
+			<artifactId>org.apache.oltu.openidconnect.client</artifactId>
+			<version>${oltu.oidc.version}</version>
+		</dependency>
+ -->
 		<dependency>
 			<groupId>org.apache.oltu.oauth2</groupId>
 			<artifactId>org.apache.oltu.oauth2.dynamicreg.client</artifactId>
@@ -79,6 +80,79 @@
 			<artifactId>org.apache.oltu.oauth2.dynamicreg.common</artifactId>
 			<version>${oltu.oauth2.version}</version>
 		</dependency>
+
+		<!-- jsf deps -->
+		<dependency>
+			<groupId>com.sun.faces</groupId>
+			<artifactId>jsf-api</artifactId>
+			<version>2.1.7</version>
+		</dependency>
+		<dependency>
+			<groupId>com.sun.faces</groupId>
+			<artifactId>jsf-impl</artifactId>
+			<version>2.1.7</version>
+		</dependency>
+
+		<dependency>
+			<groupId>javax.servlet</groupId>
+			<artifactId>jstl</artifactId>
+			<version>1.2</version>
+		</dependency>
+
+		<dependency>
+			<groupId>javax.servlet</groupId>
+			<artifactId>javax.servlet-api</artifactId>
+			<version>3.0.1</version>
+			<scope>provided</scope>
+		</dependency>
+
+		<dependency>
+			<groupId>javax.servlet.jsp</groupId>
+			<artifactId>jsp-api</artifactId>
+			<version>2.1</version>
+		</dependency>
+
+		<dependency>
+			<groupId>com.sun.el</groupId>
+			<artifactId>el-ri</artifactId>
+			<version>1.0</version>
+		</dependency>
+
+		<dependency>
+			<groupId>org.primefaces</groupId>
+			<artifactId>primefaces</artifactId>
+			<version>5.1</version>
+		</dependency>
+
+
+		<!-- jpa deps -->
+		<dependency>
+			<groupId>org.hibernate</groupId>
+			<artifactId>hibernate-entitymanager</artifactId>
+			<version>4.3.6.Final</version>
+		</dependency>
+
+		<dependency>
+			<groupId>postgresql</groupId>
+			<artifactId>postgresql</artifactId>
+			<version>9.1-901-1.jdbc4</version>
+		</dependency>
+
+		<!-- webjars -->
+		<dependency>
+			<groupId>org.webjars</groupId>
+			<artifactId>bootstrap</artifactId>
+			<version>3.2.0</version>
+			<scope>runtime</scope>
+		</dependency>
+		<!-- json utils -->
+		<dependency>
+			<groupId>org.codehaus.jackson</groupId>
+			<artifactId>jackson-mapper-asl</artifactId>
+			<version>1.9.13</version>
+		</dependency>
+
+
 
 	</dependencies>
 </project>
