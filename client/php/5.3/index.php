@@ -15,40 +15,40 @@ $api = new fkooman\OAuth\Client\Api($config['api_context'], $clientConfig, $toke
 $context = new \fkooman\OAuth\Client\Context($config['api_context'], explode(" ", $config['api_scopes']));
 
 $accessToken = $api->getAccessToken($context);
-if (false === $accessToken && $_GET['authorize'] == 1) {
-    /* no valid access token available, go to authorization server */
-    header("HTTP/1.1 302 Found");
-    header("Location: " . $api->getAuthorizeUri($context));
-    exit;
-}elseif(false === $accessToken){
-	echo "<a href='index.php?authorize=1'>Logar com o Login do Cidadao</a>";
-	exit;
-}
-
-try {
-    $client = new \Guzzle\Http\Client();
-    $bearerAuth = new \fkooman\Guzzle\Plugin\BearerAuth\BearerAuth($accessToken->getAccessToken());
-    $client->addSubscriber($bearerAuth);
-    $response = $client->get($config['api_url'])->send();
-    header("Content-Type: application/json");
-    $json= $response->getBody();
-    $json = json_decode($json, true);
-    if (false !== $json) {
-        print_r($json);
-    } else {
-        print_r($response->getBody());
-    }
-} catch (\fkooman\Guzzle\Plugin\BearerAuth\Exception\BearerErrorResponseException $e) {
-    if ("invalid_token" === $e->getBearerReason()) {
-        // the token we used was invalid, possibly revoked, we throw it away
-        $api->deleteAccessToken($context);
-        $api->deleteRefreshToken($context);
-        /* no valid access token available, go to authorization server */
+if (false === $accessToken) {
+    if ($_GET['authorize'] == 1) {
         header("HTTP/1.1 302 Found");
         header("Location: " . $api->getAuthorizeUri($context));
-        exit;
+    } else {
+        echo "<a href='index.php?authorize=1'>Logar com o Login do Cidadao</a>";
     }
-    throw $e;
-} catch (\Exception $e) {
-    die(sprintf('ERROR: %s', $e->getMessage()));
+    exit;
+} else {
+    try {
+        $client = new \Guzzle\Http\Client();
+        $bearerAuth = new \fkooman\Guzzle\Plugin\BearerAuth\BearerAuth($accessToken->getAccessToken());
+        $client->addSubscriber($bearerAuth);
+        $response = $client->get($config['api_url'])->send();
+        header("Content-Type: application/json");
+        $json = json_decode($response->getBody(), true);
+        if (false !== $json) {
+            print_r($json);
+        } else {
+            print_r($response->getBody());
+        }
+    } catch (\fkooman\Guzzle\Plugin\BearerAuth\Exception\BearerErrorResponseException $e) {
+        if ("invalid_token" === $e->getBearerReason()) {
+            // the token we used was invalid, possibly revoked, we throw it away
+            $api->deleteAccessToken($context);
+            $api->deleteRefreshToken($context);
+            /* no valid access token available, go to authorization server */
+            header("HTTP/1.1 302 Found");
+            header("Location: " . $api->getAuthorizeUri($context));
+            exit;
+        }
+        throw $e;
+    } catch (\Exception $e) {
+        die(sprintf('ERROR: %s', $e->getMessage()));
+    }    
 }
+
