@@ -10,19 +10,19 @@ $client = new oauth_client_class();
 $client->debug = 1;
 $client->debug_http = 1;
 $client->server = 'Meu';
-$client->redirect_uri = 'http://' . $_SERVER['HTTP_HOST'] . dirname(strtok($_SERVER['REQUEST_URI'], '?')) .  basename(__FILE__);
+$client->redirect_uri = 'http://' . $_SERVER['HTTP_HOST'] . dirname(strtok($_SERVER['REQUEST_URI'], '?')) . '/' . basename(__FILE__);
 
 $client->client_id = '';
 $application_line = __LINE__ - 1;
 $client->client_secret = '';
 
 if (strlen($client->client_id) == 0 || strlen($client->client_secret) == 0) {
-    die('Please go to Twitter Apps page https://meu.rs.gov.br/dev , ' . 'create an application, and in the line ' . $application_line . ' set the client_id to Consumer key and client_secret with Consumer secret. ' . 'The Callback URL must be ' . $client->redirect_uri . ' If you want to post to ' . 'the user timeline, make sure the application you create has write permissions');
+    die('Please go to https://meu.rs.gov.br/dev , ' . 'create an application, and in the line ' . $application_line . ' set the client_id to Consumer key and client_secret with Consumer secret. ' . 'The Callback URL must be ' . $client->redirect_uri . ' If you want to post to ' . 'the user timeline, make sure the application you create has write permissions');
 }
 /*
  * API permissions
  */
-$client->scope = 'id username full_name name cpf birthdate email city picture public_profile voter_registration badges country uf city adress adress_number adress_complement rgs';
+$client->scope = 'id username full_name cpf birthdate email city picture public_profile voter_registration badges country state city addresses id_cards get_all_notifications notifications cep mobile';
 if (($success = $client->Initialize())) {
     if (($success = $client->Process())) {
         if (strlen($client->authorization_error)) {

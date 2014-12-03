@@ -1,23 +1,18 @@
 <?php
 
 require_once 'vendor/autoload.php';
-require_once 'config.inc.php';
 
-$apiUri = apiUri;
-$clientConfig = new \fkooman\OAuth\Client\ClientConfig(array(
-    "authorize_endpoint" => authorize_endpoint,
-    "client_id" => client_id,
-    "client_secret" => client_secret,
-    "token_endpoint" => token_endpoint,
-    "redirect_uri" => redirect_uri
-));
+$config = parse_ini_file('config.ini');
+if (false === $config) {
+    die('please you need to have a config.ini file. Make one based on config.ini.dist');
+}
+$clientConfig = new \fkooman\OAuth\Client\ClientConfig($config);
 
 $tokenStorage = new \fkooman\OAuth\Client\SessionStorage();
 $httpClient = new \Guzzle\Http\Client();
-$api = new fkooman\OAuth\Client\Api("foo", $clientConfig, $tokenStorage, $httpClient);
+$api = new fkooman\OAuth\Client\Api($config['api_context'], $clientConfig, $tokenStorage, $httpClient);
 
-//$context = new \fkooman\OAuth\Client\Context("myapp", array("id", "username", "full_name", "name", "cpf", "birthdate","email","city","picture","public_profile","voter_registration","badges","country"));
-$context = new \fkooman\OAuth\Client\Context("john.doe@example.org", array("id", "notifications"));
+$context = new \fkooman\OAuth\Client\Context($config['api_context'], explode(" ", $config['api_scopes']));
 
 $accessToken = $api->getAccessToken($context);
 if (false === $accessToken && $_GET['authorize'] == 1) {
@@ -34,12 +29,14 @@ try {
     $client = new \Guzzle\Http\Client();
     $bearerAuth = new \fkooman\Guzzle\Plugin\BearerAuth\BearerAuth($accessToken->getAccessToken());
     $client->addSubscriber($bearerAuth);
-    $response = $client->get($apiUri)->send();
+    $response = $client->get($config['api_url'])->send();
     header("Content-Type: application/json");
     $json= $response->getBody();
     $json = json_decode($json, true);
     if (false !== $json) {
-        echo $json['username'];
+        print_r($json);
+    } else {
+        print_r($response->getBody());
     }
 } catch (\fkooman\Guzzle\Plugin\BearerAuth\Exception\BearerErrorResponseException $e) {
     if ("invalid_token" === $e->getBearerReason()) {

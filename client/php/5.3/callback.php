@@ -1,24 +1,21 @@
 <?php
 
 require_once 'vendor/autoload.php';
-require_once 'config.inc.php';
 
-$clientConfig = new \fkooman\OAuth\Client\ClientConfig(array(
-    "authorize_endpoint" => authorize_endpoint,
-    "client_id" => client_id,
-    "client_secret" => client_secret,
-    "token_endpoint" => token_endpoint,
-    "redirect_uri" => redirect_uri
-));
+$config = parse_ini_file('config.ini');
+if (false === $config) {
+    die('please you need to have a config.ini file. Make one based on config.ini.dist');
+}
+$clientConfig = new \fkooman\OAuth\Client\ClientConfig($config);
 
 try {
     $tokenStorage = new \fkooman\OAuth\Client\SessionStorage();
     $httpClient = new \Guzzle\Http\Client();
-    $cb = new \fkooman\OAuth\Client\Callback("foo", $clientConfig, $tokenStorage, $httpClient);
+    $cb = new \fkooman\OAuth\Client\Callback($config['api_context'], $clientConfig, $tokenStorage, $httpClient);
     $cb->handleCallback($_GET);
 
     header("HTTP/1.1 302 Found");
-    header("Location: ". siteUrl);
+    header("Location: index.php");
     exit;
 } catch (\fkooman\OAuth\Client\AuthorizeException $e) {
     // this exception is thrown by Callback when the OAuth server returns a
