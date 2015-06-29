@@ -17,6 +17,10 @@
         {
             "type" : "vcs",
             "url" : "https://github.com/PROCERGS/login-cidadao-badges-bundle"
+        },
+        {
+            "type" : "vcs",
+            "url" : "https://github.com/guilhermednt/CPTermsBundle"
         }
     ],
     "require" : {
@@ -50,7 +54,8 @@
         "procergs/login-cidadao-badges-bundle": "dev-cleanup",
         "procergs/login-cidadao-igp-bundle": "dev-master",
         "scheb/two-factor-bundle": "dev-master",
-        "symfony/phpunit-bridge": "^2.7"
+        "symfony/phpunit-bridge": "^2.7",
+        "cp/terms-bundle": "~1.0"
     },
     "require-dev": {
         "sensio/generator-bundle" : "~2.3"
